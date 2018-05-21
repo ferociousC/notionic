@@ -1,0 +1,11 @@
+$number-of-modifiers: 5;
+$modifier-name: 'mod';
+$modixfier-type: 'pad';
+
+@for $i from 1 through $number-of-modifiers {
+	
+	.#{$modixfier-type}  {
+		padding: 10px;
+	}
+
+}
