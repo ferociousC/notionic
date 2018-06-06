@@ -1,8 +1,10 @@
 <template>
   <div class="techs-container">
-    <h2 class="techs-h2">
-      Cooked with all these awesome technologies:
-    </h2>
+    <div class="content--angle--down--5 content--green--yellow--field">
+      <h2 class="techs-h2">
+        Cooked with all these awesome technologies:
+      </h2>
+    </div>
     <div class="techs">
       <tech v-for="tech in techs" :tech="tech"></tech>
     </div>

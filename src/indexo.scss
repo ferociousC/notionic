@@ -1,11 +1,8 @@
 $content-width: 1450px;
-$content-height: auto;
 $views: 3;
 $largest-view: 1320px;
-$default-line-height: 1.33;
 $view-multiplier: ( $largest-view / ( $views - 1) );
 $font-family: 'Open Sans', sans-serif;
-$color: black;
 
 @function deep-get($map, $keys...) {
     @each $key in $keys {
@@ -14,20 +11,15 @@ $color: black;
     @return $map;
 }
 
+
 $arch-depth-abstract: (
   ('*'),
+  (''), // total - html, body
+  (''), // block - header, footer, main, div
   ('p', 'h1', 'h2', 'button', 'input')
 );
 
 $arch-depth-general: (
-  ('field--head', 'field--body'),
-  ('content--outer'),
-  ('content--inner'),
-  ('content', 'content--part', 'content--split', 'content--text', 'content--angle--down', 'control', 'control--box--split'),
-  ('content--image', '', 'button', 'button--hover--topleft')
-);
-
-$arch-depth-exact: (
   ('field--head', 'field--body'),
   ('content--outer'),
   ('content--inner'),
@@ -62,7 +54,7 @@ $arch-abstract-map: (
 $arch-property-values: (
         ('padding', 0 0 0 0),
         ('margin', 0, 'auto'),
-        ('color'),
+        ('color', $white),
         ('background', 'none'),
         ('width', ''),
         ('height', ''),
@@ -70,16 +62,22 @@ $arch-property-values: (
         ('font-size', '')
 );
 
+
+
 $arch-values: (
         
 );
 
 @for $i from 1 through length($arch-depth-abstract) {
-  @for $j from 1 through length(nth($arch-depth-abstract, $i)) {
+  @for $j from 1 through length(nth($arch-depth-abstract, $h)) {
     
-    #{nth(nth($arch-depth-abstract, $i), $j)} {
+    #{nth(nth($arch-depth-abstract, $i), $j))} {
+      
       @for $k from 1 through length($arch-abstract-map) {
-
+        @for $l from 1 through length(nth($arch-abstract-property-values, $k)){
+            
+          
+        }
       }
     }
 
@@ -87,7 +85,7 @@ $arch-values: (
 }
 
 @for $i from 1 through length($arch-depth-general) {
-  @for $j from 2 through length(nth($arch-depth-general, $i)) {
+  @for $j from 2 through length(nth($arch-depth-general, $h)) {
     @for $k from 1 through length($arch-property-values) {
       @for $l from 2 through length(nth($arch-property-values, $k)){
 
@@ -97,7 +95,7 @@ $arch-values: (
 }
 
 @for $i from 1 through length($arch-depth-exact) {
-  @for $j from 2 through length(nth($arch-depth-exact, $i)) {
+  @for $j from 2 through length(nth($arch-depth-exact, $h)) {
     @for $k from 1 through length($arch-property-values) {
       @for $l from 2 through length(nth($arch-property-values, $k)){
 
@@ -106,12 +104,18 @@ $arch-values: (
   }
 }
 
-.styles {
+          }
+        }
+      }
+  
+    } 
+  }
+}
+
 //background
 background: transparent;
-  background-color: rgba(210, 170, 0, 0.94);
-  background-image: linear-gradient(55deg, yellow, green);
-  box-shadow: 0;  
+background-color: rgba(210, 170, 0, 0.94);
+background-image: linear-gradient(55deg, $yellow, $green)
 
 //display
 overflow: visible;
@@ -129,13 +133,7 @@ box-sizing: border-box;
 margin: 0;
 padding: 0;
 border: none;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  border-left: 0;
   border-radius: 0;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  border: 0;
 
 //sizing
 width: $content-width;
@@ -143,16 +141,12 @@ height: $content-height;
 max-width: $content-width;
 max-height: $content-height;
 
-//shaping
-clip-path: 0 0, 0 100%;
-
-
 //typography
 font: inherit;
 font-family: $font-family;
 font-size: 14px;
 font-weight: 400;  
-color: $color;
+color: $black;
 line-height: $default-line-height;
 text-transform: uppercase;
 text-align: center;
@@ -164,7 +158,6 @@ left: 9px;
 top: 9px;
 bottom: 9px;
 
-}
 
 
 
@@ -216,40 +209,3 @@ bottom: 9px;
 }
 
 
-$test-base: 5;
-$origin: 'content';
-$modificator: 'angle--down';
-$properties: (
-  'clip path',
-  'overflow'
-);
-$angle-v: '25%';
-
-$path: ('0 0',
-    '100% 0',
-    '100% 100%',
-    '0 calc(100% + #{$angle-v})'
-  );
-
-$hide: 'hidden';
-$values: (
-  $path,
-  $hide
-);
-
-@function cut-path-value($path, $type:polygon) {  
- @return #{$type}( #{$path}
-  );  
-}
-
-$function-holder: 'cut-path-value';
-
-.#{$origin}--#{$modificator}--#{$test-base} {
-  $properties[1]: $function-holder($path);
-  $properties[2]: $values[2];
-}
-
-
-.content--green--yellow--field {
-  background-image: linear-gradient(55deg, yellow, green)
-}
